@@ -20,16 +20,36 @@ class Pengajuan_pinjam_alat extends CI_Controller
 
     public function index()
     {
-        $pengajuan = $this->db->select('tb_permohonan_pinjam_alat.*, tb_user.*')
-            ->from('tb_permohonan_pinjam_alat')
-            ->join('tb_user', 'tb_user.id_user=tb_permohonan_pinjam_alat.id_user')
-            ->where('tb_permohonan_pinjam_alat.status_laboran', 'Belum diizinkan')
-            ->get();
+        $id_bidang_lab = $this->session->userdata('id_bidang_lab');
+        // $pengajuan = $this->db->select('tb_permohonan_pinjam_alat.*, tb_user.*')
+        //     ->from('tb_permohonan_pinjam_alat')
+        //     ->join('tb_user', 'tb_user.id_user=tb_permohonan_pinjam_alat.id_user')
+        //     ->where('tb_permohonan_pinjam_alat.status_laboran', 'Belum diizinkan')
+        //     ->get();
 
-        $pinjam_alat = $this->db->select('tb_permohonan_pinjam_alat.*, tb_user.*')
-            ->from('tb_permohonan_pinjam_alat')
+        // $pinjam_alat = $this->db->select('tb_permohonan_pinjam_alat.*, tb_user.*')
+        //     ->from('tb_permohonan_pinjam_alat')
+        //     ->join('tb_user', 'tb_user.id_user=tb_permohonan_pinjam_alat.id_user')
+        //     ->where('tb_permohonan_pinjam_alat.status_laboran', 'Belum diizinkan')
+        //     ->get();
+
+        $pengajuan = $this->db->select('tb_permohonan_pinjam_alat.*, tb_user.*, tb_pinjam.*')
+            ->from('tb_pinjam')
+            ->join('tb_permohonan_pinjam_alat', 'tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat=tb_pinjam.id_permohonan_pinjam_alat')
             ->join('tb_user', 'tb_user.id_user=tb_permohonan_pinjam_alat.id_user')
-            ->where('tb_permohonan_pinjam_alat.status_laboran', 'Belum diizinkan')
+            // ->where('tb_pinjam.kondisi_awal', 'IS NULL')
+            ->where('tb_pinjam.kondisi_awal', (NULL))
+            ->where('tb_pinjam.id_bidang_lab',$id_bidang_lab)
+            ->group_by('tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat')
+            ->get();
+        $pinjam_alat = $this->db->select('tb_permohonan_pinjam_alat.*, tb_user.*, tb_pinjam.*')
+            ->from('tb_pinjam')
+            ->join('tb_permohonan_pinjam_alat', 'tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat=tb_pinjam.id_permohonan_pinjam_alat')
+            ->join('tb_user', 'tb_user.id_user=tb_permohonan_pinjam_alat.id_user')
+            // ->where('tb_permohonan_pinjam_alat.status_laboran', 'Belum diizinkan')
+            ->where('tb_pinjam.kondisi_awal', (NULL))
+            ->where('tb_pinjam.id_bidang_lab',$id_bidang_lab)
+            ->group_by('tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat')
             ->get();
 
         $bebas_lab = $this->db->select('tb_permohonan_bebas_lab.*, tb_user.*')
@@ -52,12 +72,15 @@ class Pengajuan_pinjam_alat extends CI_Controller
     public function detail($id)
     {
         //cek apakah sedang ada permohonan pinjam alat
+        $id_bidang_lab = $this->session->userdata('id_bidang_lab');
+
         $cek_mohon_pinjam_alat = $this->db->select('tb_pinjam.*, tb_permohonan_pinjam_alat.*, tb_alat.*')
             ->from('tb_pinjam')
             ->join('tb_permohonan_pinjam_alat', 'tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat=tb_pinjam.id_permohonan_pinjam_alat')
             ->join('tb_alat', 'tb_alat.id_alat=tb_pinjam.id_alat')
             ->where('tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat', $id)
-            ->where('tb_permohonan_pinjam_alat.status', 'Belum diizinkan')
+            ->where('tb_pinjam.kondisi_awal', (NULL))
+            ->where('tb_pinjam.id_bidang_lab',$id_bidang_lab)
             ->get();
 
         $user = $this->db->select('tb_permohonan_pinjam_alat.*, tb_user.*')
@@ -96,10 +119,26 @@ class Pengajuan_pinjam_alat extends CI_Controller
             $this->db->update('tb_pinjam', $data_to_save, array('id_pinjam' => $list_data['id_pinjam']));
         }
 
-        $data_to_save2 = array(
-            'id_laboran' => $this->session->userdata('id_user'),
-            'status_laboran' => 'Diizinkan',
-        );
+        // check apabila sisa 1, maka tb_permohonan_pinjam_alat dijadikan diizinkan
+        $check = $this->db->query("SELECT * FROM tb_pinjam WHERE id_permohonan_pinjam_alat = '$id_permohonan' AND kondisi_awal = (NULL)")->result();
+        // if(!empty($check)){
+            if(count($check) == '0'){
+                $data_to_save2 = array(
+                    'id_laboran' => $this->session->userdata('id_user'),
+                    'status_laboran' => 'Diizinkan',
+                );
+            }else {
+                $data_to_save2 = array(
+                    'id_laboran' => $this->session->userdata('id_user'),
+                    'status_laboran' => 'Belum diizinkan',
+                );
+            }
+        // }
+
+        // $data_to_save2 = array(
+        //     'id_laboran' => $this->session->userdata('id_user'),
+        //     'status_laboran' => 'Diizinkan',
+        // );
         $this->db->update('tb_permohonan_pinjam_alat', $data_to_save2, array('id_permohonan_pinjam_alat' => $id_permohonan));
 
         if ($this->db->trans_status() === FALSE) {

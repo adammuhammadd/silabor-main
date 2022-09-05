@@ -32,7 +32,7 @@
                     if (msg.status == 'success') {
                         $('.notif').html(msg.text);
                         setTimeout(() => {
-                            location.reload()
+                            window.location.href = '<?= base_url() ?>laboran/pengambilan_alat';
                         }, 1000);
                     } else {
                         $('.notif').html(msg.text);

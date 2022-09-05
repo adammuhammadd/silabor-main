@@ -21,10 +21,15 @@ class Pengambilan_alat extends CI_Controller
     public function index()
     {
 
-        $pengambilan = $this->db->select('tb_permohonan_pinjam_alat.*, tb_user.*')
-            ->from('tb_permohonan_pinjam_alat')
+        $id_bidang_lab = $this->session->userdata('id_bidang_lab');
+        
+        $pengambilan = $this->db->select('tb_permohonan_pinjam_alat.*, tb_user.*, tb_pinjam.*')
+            ->from('tb_pinjam')
+            ->join('tb_permohonan_pinjam_alat', 'tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat=tb_pinjam.id_permohonan_pinjam_alat')
             ->join('tb_user', 'tb_user.id_user=tb_permohonan_pinjam_alat.id_user')
-            ->where('tb_permohonan_pinjam_alat.status_track', 'Belum diambil')
+            ->where('tb_pinjam.status', 'Belum diambil')
+            ->where('tb_pinjam.id_bidang_lab',$id_bidang_lab)
+            ->group_by('tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat')
             ->get();
 
         $data = array(
@@ -39,12 +44,13 @@ class Pengambilan_alat extends CI_Controller
     public function detail($id)
     {
         //cek apakah sedang ada permohonan pinjam alat
+        $id_bidang_lab = $this->session->userdata('id_bidang_lab');
         $cek_mohon_ambil_alat = $this->db->select('tb_pinjam.*, tb_permohonan_pinjam_alat.*, tb_alat.*')
             ->from('tb_pinjam')
             ->join('tb_permohonan_pinjam_alat', 'tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat=tb_pinjam.id_permohonan_pinjam_alat')
             ->join('tb_alat', 'tb_alat.id_alat=tb_pinjam.id_alat')
-            ->where('tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat', $id)
-            ->where('tb_permohonan_pinjam_alat.status_track', 'Belum diambil')
+            ->where('tb_pinjam.status', 'Belum diambil')
+            ->where('tb_pinjam.id_bidang_lab',$id_bidang_lab)
             ->get();
 
         $user = $this->db->select('tb_permohonan_pinjam_alat.*, tb_user.*')
@@ -74,11 +80,14 @@ class Pengambilan_alat extends CI_Controller
     public function diambil()
     {
         $id_permohonan = $this->input->post('id_permohonan');
+        $id_bidang_lab = $this->session->userdata('id_bidang_lab');
 
         $data = $this->db->select('tb_pinjam.*, tb_permohonan_pinjam_alat.*')
             ->from('tb_pinjam')
             ->join('tb_permohonan_pinjam_alat', 'tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat=tb_pinjam.id_permohonan_pinjam_alat')
-            ->where('tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat', $id_permohonan)
+            ->where('tb_pinjam.id_permohonan_pinjam_alat', $id_permohonan)
+            ->where('tb_pinjam.id_bidang_lab', $id_bidang_lab)
+            ->where('tb_pinjam.status','Belum diambil')
             ->get();
 
         $this->db->trans_begin();
@@ -90,11 +99,22 @@ class Pengambilan_alat extends CI_Controller
 
             $this->db->update('tb_pinjam', $data_to_save, array('id_pinjam' => $list_data->id_pinjam));
         }
+        
+        // check apabila sisa 1, maka tb_permohonan_pinjam_alat dijadikan diizinkan
+        $check = $this->db->query("SELECT * FROM tb_pinjam WHERE id_permohonan_pinjam_alat = '$id_permohonan' AND status = 'Belum diambil' ")->result();
 
-        $data_to_save2 = array(
-            'tgl_peminjaman' => date('Y-m-d'),
-            'status_track' => 'Sudah diambil',
-        );
+        if(count($check) == '0'){
+            $data_to_save2 = array(
+                'tgl_peminjaman' => date('Y-m-d'),
+                'status_track' => 'Sudah diambil',
+            );
+        }else {
+            $data_to_save2 = array(
+                'tgl_peminjaman' => date('Y-m-d'),
+                'status_track' => 'Belum diambil',
+            );
+        }
+
         $this->db->update('tb_permohonan_pinjam_alat', $data_to_save2, array('id_permohonan_pinjam_alat' => $id_permohonan));
 
         if ($this->db->trans_status() === FALSE) {

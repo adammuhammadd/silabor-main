@@ -129,7 +129,7 @@ class Bebas_lab extends CI_Controller
         }
     }
 
-    public function form_bebas_lab($id)
+    public function form_bebas_labold($id)
     {
         $cek_status = $this->db->select('tb_permohonan_bebas_lab.*, tb_user.*, tb_bidang_lab.*, tb_prodi.*')
             ->from('tb_permohonan_bebas_lab')
@@ -157,8 +157,10 @@ class Bebas_lab extends CI_Controller
             ->where('tb_permohonan_pinjam_alat.status_track', "Telah dikembalikan")
             ->group_by('tb_bidang_lab.bidang_lab')
             ->get();
-
         $get_kode = substr($cek_status->kode_permohonan, 4, -7);
+
+        echo '<pre>';print_r($cek_history_pinjam->result());exit;
+
 
         $kode_kalab_kimia = '';
         $kode_kalab_fisika = '';
@@ -574,6 +576,75 @@ class Bebas_lab extends CI_Controller
             'data_kalab_tk_material' => $data_kalab_tk_material,
             'data_kalab_tk_pertambangan' => $data_kalab_tk_pertambangan,
         );
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
+        $dompdf = new Dompdf($options);
+
+        $html = $this->load->view('form_bebas_lab', $data, true);;
+
+        $dompdf->loadHtml($html);
+
+        $dompdf->setPaper('A4', 'potrait');
+
+        $dompdf->render();
+
+        $dompdf->stream('form_bebas_lab.pdf', array("Attachment" => false));
+
+        exit(0);
+    }
+
+    public function form_bebas_lab($id)
+    {
+        $cek_status = $this->db->select('tb_permohonan_bebas_lab.*, tb_user.*, tb_bidang_lab.*, tb_prodi.*')
+            ->from('tb_permohonan_bebas_lab')
+            ->join('tb_user', 'tb_user.id_user=tb_permohonan_bebas_lab.id_user')
+            ->join('tb_bidang_lab', 'tb_bidang_lab.id_bidang_lab=tb_user.id_bidang_lab', 'left')
+            ->join('tb_prodi', 'tb_prodi.id_prodi=tb_user.id_prodi', 'left')
+            ->where('tb_permohonan_bebas_lab.id_permohonan_bebas_lab', $id)
+            ->get()
+            ->row();
+
+        $get_kalab = $this->db->select('tb_validasi_kalab.*, tb_permohonan_bebas_lab.*, tb_user.*, tb_bidang_lab.*')
+            ->from('tb_validasi_kalab')
+            ->join('tb_permohonan_bebas_lab', 'tb_permohonan_bebas_lab.id_permohonan_bebas_lab=tb_validasi_kalab.id_permohonan_bebas_lab')
+            ->join('tb_user', 'tb_user.id_user=tb_validasi_kalab.id_kalab')
+            ->join('tb_bidang_lab', 'tb_bidang_lab.id_bidang_lab=tb_user.id_bidang_lab')
+            ->where('tb_permohonan_bebas_lab.id_permohonan_bebas_lab', $id)
+            ->get();
+
+        $cek_history_pinjam = $this->db->select('tb_permohonan_pinjam_alat.*, tb_pinjam.*, tb_alat.*, tb_bidang_lab.*')
+            ->from('tb_permohonan_pinjam_alat')
+            ->join('tb_pinjam', 'tb_pinjam.id_permohonan_pinjam_alat=tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat')
+            ->join('tb_alat', 'tb_alat.id_alat=tb_pinjam.id_alat')
+            ->join('tb_bidang_lab', 'tb_bidang_lab.id_bidang_lab=tb_alat.id_bidang_lab')
+            ->where('tb_permohonan_pinjam_alat.id_user', $cek_status->id_user)
+            ->where('tb_permohonan_pinjam_alat.status_track', "Telah dikembalikan")
+            ->group_by('tb_bidang_lab.bidang_lab')
+            ->get();
+        
+
+
+        $get_kode = substr($cek_status->kode_permohonan, 4, -7);
+        foreach ($get_kalab->result() as $key => $row) {
+            $str = 'Ditandatangani_Oleh_:_' . $row->nama_lengkap . '_|_No_surat_:_' . $get_kode;
+            $kode_kalab[] = $str;
+            $data_kalab[] = $row;
+        }
+
+        $kepala_upt     = $this->db->query("SELECT * FROM tb_user WHERE is_level='Kepala UPT Lab'")->row();
+        $ttd_kepala_upt = 'Ditandatangani_Oleh_:_' . $kepala_upt->nama_lengkap . '_|_No_surat_:_' . $get_kode;
+        
+        $data = array(
+            'nama'              => $cek_status->nama_lengkap,
+            'nim'               => $cek_status->nim,
+            'prodi'             => $cek_status->prodi,
+            'tgl_penerimaan'    => date("d-m-Y"),
+            'kode_permohonan'   => $cek_status->kode_permohonan,
+            'kode_kalab'        => $kode_kalab,
+            'data_kalab'        => $data_kalab,
+            'kode_kepala_upt'   => $ttd_kepala_upt
+        );
+
         $options = new Options();
         $options->set('isRemoteEnabled', true);
         $dompdf = new Dompdf($options);

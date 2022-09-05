@@ -40,7 +40,6 @@ class Home extends CI_Controller
             ->join('tb_user', 'tb_user.id_user=tb_permohonan_bebas_lab.id_user')
             ->where('tb_permohonan_bebas_lab.status', 'Belum diizinkan')
             ->get();
-
         //cek permohonan pinjam yang telah di approve laboran
         $cek_konfirmasi_pinjam_alat = $this->db->select('tb_permohonan_pinjam_alat.*, tb_user.*')
             ->from('tb_permohonan_pinjam_alat')
@@ -58,8 +57,11 @@ class Home extends CI_Controller
 
         $cek_konfirmasi_bebas_lab = $this->cek_status_validasi();
 
-        foreach ($cek_konfirmasi_bebas_lab as $konf_bebas) {
-            $list_permohonan[] = $konf_bebas;
+        // foreach ($cek_konfirmasi_bebas_lab as $konf_bebas) {
+        //     $list_permohonan[] = $konf_bebas;
+        // }
+        foreach($bebas_lab->result() as $key =>$row){
+            $list_permohonan[] = $row;
         }
 
         $data = array(
@@ -116,7 +118,6 @@ class Home extends CI_Controller
                     }
                 }
             }
-
             if ($fakultas->fakultas == "Sains") {
                 if ($cek_history_pinjam->num_rows() == 0) {
                     array_push($result_array, $fakultas);

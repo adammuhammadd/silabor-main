@@ -72,6 +72,7 @@ class Login extends CI_Controller
 					
 					$sess = array(
 						'id_user' => $lev->row()->id_user,
+						'id_bidang_lab' => $lev->row()->id_bidang_lab,
 						'email' => $lev->row()->email,
 						'nama_lengkap' => $lev->row()->nama_lengkap,
 						'level' => $level,

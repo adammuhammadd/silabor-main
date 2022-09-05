@@ -27,11 +27,22 @@ class Home extends CI_Controller
             ->group_by('tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat')
             ->get();
 
+        // $pinjam_alat = $this->db->select('tb_permohonan_pinjam_alat.*, tb_user.*, tb_pinjam.*')
+        //     ->from('tb_permohonan_pinjam_alat')
+        //     ->join('tb_user', 'tb_user.id_user=tb_permohonan_pinjam_alat.id_user')
+        //     ->join('tb_pinjam', 'tb_pinjam.id_permohonan_pinjam_alat=tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat')
+        //     ->where('tb_permohonan_pinjam_alat.status_laboran', 'Belum diizinkan')
+        //     ->group_by('tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat')
+        //     ->get();
+
+        $id_bidang_lab = $this->session->userdata('id_bidang_lab');
         $pinjam_alat = $this->db->select('tb_permohonan_pinjam_alat.*, tb_user.*, tb_pinjam.*')
-            ->from('tb_permohonan_pinjam_alat')
+            ->from('tb_pinjam')
+            ->join('tb_permohonan_pinjam_alat', 'tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat=tb_pinjam.id_permohonan_pinjam_alat')
             ->join('tb_user', 'tb_user.id_user=tb_permohonan_pinjam_alat.id_user')
-            ->join('tb_pinjam', 'tb_pinjam.id_permohonan_pinjam_alat=tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat')
-            ->where('tb_permohonan_pinjam_alat.status_laboran', 'Belum diizinkan')
+            // ->where('tb_permohonan_pinjam_alat.status_laboran', 'Belum diizinkan')
+            ->where('tb_pinjam.kondisi_awal', (NULL))
+            ->where('tb_pinjam.id_bidang_lab',$id_bidang_lab)
             ->group_by('tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat')
             ->get();
 

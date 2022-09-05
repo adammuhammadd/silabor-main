@@ -17,6 +17,8 @@
                 let id_alat = $(this).find('.id_alat').first().text();
                 let jml_alat = $(this).find('.jml_alat').first().val();
                 let sisa = $(this).find('.sisa').first().text();
+                let id_bidang_lab = $(this).find('.id_bidang_lab').first().val();
+                alert(id_alat)
 
                 let result
 
@@ -28,7 +30,9 @@
                     result = {
                         id_alat,
                         nama_alat,
-                        jml_alat
+                        jml_alat,
+                        id_bidang_lab
+
                     }
 
                     dataToSend.push(result)

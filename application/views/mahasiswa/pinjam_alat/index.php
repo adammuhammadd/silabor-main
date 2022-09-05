@@ -36,6 +36,7 @@
 										<?php foreach ($data->result() as $alat) { ?>
 											<?php if ($alat->jumlah_alat_sisa > 0) { ?>
 												<tr class="alat">
+													<input type="hidden" class="id_bidang_lab" value="<?=$alat->id_bidang_lab ?>">
 													<td><?= $alat->bidang_lab ?></td>
 													<td><img class="img-fluid img-40" src="<?= base_url('upload/alat/') . $alat->gambar ?>"></td>
 													<td>

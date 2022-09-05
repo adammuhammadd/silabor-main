@@ -118,6 +118,7 @@ class Pinjam_alat extends CI_Controller
         foreach ($data as $item) {
             $data_pinjam[] = array(
                 "id_permohonan_pinjam_alat" => (int)$id_permohonan,
+                "id_bidang_lab" => (int)$item->id_bidang_lab,
                 "id_alat" => (int)$item->id_alat,
                 "jml_alat" => (int)$item->jml_alat,
                 "status" => "Sedang diajukan",
