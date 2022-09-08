@@ -51,6 +51,9 @@ class Home extends CI_Controller
             ->group_by('tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat')
             ->get();
 
+        // echo '<pre>';print_r($cek_konfirmasi_pinjam_alat->result_array());exit;
+
+
         foreach ($cek_konfirmasi_pinjam_alat->result() as $konf_pinjam) {
             $list_permohonan[] = $konf_pinjam;
         }
@@ -63,6 +66,8 @@ class Home extends CI_Controller
         foreach($bebas_lab->result() as $key =>$row){
             $list_permohonan[] = $row;
         }
+
+        // echo '<pre>';print_r($list_permohonan);exit;
 
         $data = array(
             'peminjam_alat' => $peminjam_alat,

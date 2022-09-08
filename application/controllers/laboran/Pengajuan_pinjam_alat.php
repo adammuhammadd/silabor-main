@@ -89,9 +89,9 @@ class Pengajuan_pinjam_alat extends CI_Controller
             ->where('tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat', $id)
             ->get();
 
-        if ($user->row()->status_laboran == 'Diizinkan') {
-            echo '<script>window.location.href="' . base_url('home') . '";</script>';
-        }
+        // if ($user->row()->status_laboran == 'Diizinkan') {
+        //     echo '<script>window.location.href="' . base_url('xxx') . '";</script>';
+        // }
 
         $data = array(
             'data' => $cek_mohon_pinjam_alat->result(),
@@ -120,25 +120,19 @@ class Pengajuan_pinjam_alat extends CI_Controller
         }
 
         // check apabila sisa 1, maka tb_permohonan_pinjam_alat dijadikan diizinkan
-        $check = $this->db->query("SELECT * FROM tb_pinjam WHERE id_permohonan_pinjam_alat = '$id_permohonan' AND kondisi_awal = (NULL)")->result();
-        // if(!empty($check)){
-            if(count($check) == '0'){
-                $data_to_save2 = array(
-                    'id_laboran' => $this->session->userdata('id_user'),
-                    'status_laboran' => 'Diizinkan',
-                );
-            }else {
-                $data_to_save2 = array(
-                    'id_laboran' => $this->session->userdata('id_user'),
-                    'status_laboran' => 'Belum diizinkan',
-                );
-            }
-        // }
+        $check = $this->db->query("SELECT * FROM tb_pinjam WHERE id_permohonan_pinjam_alat = '$id_permohonan' AND kondisi_awal IS NULL")->result();
+        if(count($check) == '0'){
+            $data_to_save2 = array(
+                'id_laboran' => $this->session->userdata('id_user'),
+                'status_laboran' => 'Diizinkan',
+            );
+        }else {
+            $data_to_save2 = array(
+                'id_laboran' => $this->session->userdata('id_user'),
+                'status_laboran' => 'Belum diizinkan',
+            );
+        }
 
-        // $data_to_save2 = array(
-        //     'id_laboran' => $this->session->userdata('id_user'),
-        //     'status_laboran' => 'Diizinkan',
-        // );
         $this->db->update('tb_permohonan_pinjam_alat', $data_to_save2, array('id_permohonan_pinjam_alat' => $id_permohonan));
 
         if ($this->db->trans_status() === FALSE) {

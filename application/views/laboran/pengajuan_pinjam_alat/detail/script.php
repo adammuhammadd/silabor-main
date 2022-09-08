@@ -59,7 +59,8 @@
                     if (msg.status == 'success') {
                         $('.notif').html(msg.text);
                         setTimeout(() => {
-                            location.reload()
+                            window.location.href = '<?= base_url() ?>laboran/pengajuan_pinjam_alat';
+
                         }, 1000);
                     } else {
                         $('.notif').html(msg.text);
