@@ -625,11 +625,18 @@ class Bebas_lab extends CI_Controller
 
 
         $get_kode = substr($cek_status->kode_permohonan, 4, -7);
-        foreach ($get_kalab->result() as $key => $row) {
-            $str = 'Ditandatangani_Oleh_:_' . $row->nama_lengkap . '_|_No_surat_:_' . $get_kode;
-            $kode_kalab[] = $str;
-            $data_kalab[] = $row;
+        if(!empty($get_kalab->result())){
+            foreach ($get_kalab->result() as $key => $row) {
+                $str = 'Ditandatangani_Oleh_:_' . $row->nama_lengkap . '_|_No_surat_:_' . $get_kode;
+                $kode_kalab[] = $str;
+                $data_kalab[] = $row;
+            }
+        }else {
+            $kode_kalab = array();
+            $data_kalab = array();
         }
+        
+        // echo '<pre>';print_r($data_kalab);exit;
 
         $kepala_upt     = $this->db->query("SELECT * FROM tb_user WHERE is_level='Kepala UPT Lab'")->row();
         $ttd_kepala_upt = 'Ditandatangani_Oleh_:_' . $kepala_upt->nama_lengkap . '_|_No_surat_:_' . $get_kode;
@@ -645,6 +652,13 @@ class Bebas_lab extends CI_Controller
             'kode_kepala_upt'   => $ttd_kepala_upt
         );
 
+        // if(!empty($data_kalab)){
+        //     echo 'a';
+        // }else {
+        //     echo 'b';
+        // }
+        // exit;
+
         $options = new Options();
         $options->set('isRemoteEnabled', true);
         $dompdf = new Dompdf($options);
@@ -657,9 +671,9 @@ class Bebas_lab extends CI_Controller
 
         $dompdf->render();
 
-        $dompdf->stream('form_bebas_lab.pdf', array("Attachment" => false));
+        $dompdf->stream('form_bebas_lab.pdf', array("Attachment" => true));
 
-        exit(0);
+        // exit(0);
     }
 
     public function qr($data)

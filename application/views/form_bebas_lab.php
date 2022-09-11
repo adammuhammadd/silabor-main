@@ -136,26 +136,27 @@
                 </p>
             </div>
 
-            <div class="table">
-                <table style="border-collapse: collapse;">
-                <tr style="background-color:#B7C5E4; font-weight:bold">
-                    <?php foreach ($data_kalab as $key => $row) { ?>
-                        <td style="padding: 10px; font-size: 10pt; min-width:200px"><?= $row->bidang_lab ?></td>
-                    <?php } ?>
-                    <tr>
+            <?php if($data_kalab) { ?>
+                <div class="table">
+                    <table style="border-collapse: collapse;">
+                    <tr style="background-color:#B7C5E4; font-weight:bold">
                         <?php foreach ($data_kalab as $key => $row) { ?>
-                            <td>
-                                <p style="font-size: 10pt;margin:0;padding:0">Koordinator Laboratorium</p>
-                                <div><img width="100px" src="<?= base_url('generate/qrcode/') . $kode_kalab[$key] ?>"></div>
-                                <p style="font-size: 10pt;margin:0;padding:0"><?= $row->nama_lengkap ?> </p>
-                                <p style="font-size: 10pt;margin:0;padding:0">NIP. <?= $row->nim ?></p>
-                            </td>
+                            <td style="padding: 10px; font-size: 10pt; min-width:200px"><?= $row->bidang_lab ?></td>
                         <?php } ?>
+                        <tr>
+                            <?php foreach ($data_kalab as $key => $row) { ?>
+                                <td>
+                                    <p style="font-size: 10pt;margin:0;padding:0">Koordinator Laboratorium</p>
+                                    <div><img width="100px" src="<?= base_url('generate/qrcode/') . $kode_kalab[$key] ?>"></div>
+                                    <p style="font-size: 10pt;margin:0;padding:0"><?= $row->nama_lengkap ?> </p>
+                                    <p style="font-size: 10pt;margin:0;padding:0">NIP. <?= $row->nim ?></p>
+                                </td>
+                            <?php } ?>
+                        </tr>
                     </tr>
-                </tr>
-                </table>
-            </div>
-
+                    </table>
+                </div>
+            <?php } ?>
 
             <!-- <div class="table">
                 <table style="border-collapse: collapse;">
