@@ -60,6 +60,7 @@ class Pengambilan_alat extends CI_Controller
             ->where('tb_permohonan_pinjam_alat.status_track', 'Belum diambil')
             ->where('tb_permohonan_pinjam_alat.status', 'Diizinkan')
             ->get();
+        
 
         if ($user->num_rows() == 0) {
             echo '<script>window.location.href="' . base_url('home') . '";</script>';
