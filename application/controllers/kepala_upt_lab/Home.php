@@ -58,7 +58,7 @@ class Home extends CI_Controller
             $list_permohonan[] = $konf_pinjam;
         }
 
-        $cek_konfirmasi_bebas_lab = $this->cek_status_validasi();
+        // $cek_konfirmasi_bebas_lab = $this->cek_status_validasi();
 
         // foreach ($cek_konfirmasi_bebas_lab as $konf_bebas) {
         //     $list_permohonan[] = $konf_bebas;

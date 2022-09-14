@@ -706,13 +706,16 @@ class Bebas_lab extends CI_Controller
             ->group_by('tb_bidang_lab.bidang_lab')
             ->get();
         
-
-
         $get_kode = substr($cek_status->kode_permohonan, 4, -7);
-        foreach ($get_kalab->result() as $key => $row) {
-            $str = 'Ditandatangani_Oleh_:_' . $row->nama_lengkap . '_|_No_surat_:_' . $get_kode;
-            $kode_kalab[] = $str;
-            $data_kalab[] = $row;
+        if(!empty($get_kalab->result())){
+            foreach ($get_kalab->result() as $key => $row) {
+                $str = 'Ditandatangani_Oleh_:_' . $row->nama_lengkap . '_|_No_surat_:_' . $get_kode;
+                $kode_kalab[] = $str;
+                $data_kalab[] = $row;
+            }
+        }else {
+            $kode_kalab = array();
+            $data_kalab = array();
         }
 
         $kepala_upt     = $this->db->query("SELECT * FROM tb_user WHERE is_level='Kepala UPT Lab'")->row();
