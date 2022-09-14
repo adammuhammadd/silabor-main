@@ -53,13 +53,17 @@ class Pengambilan_alat extends CI_Controller
             ->where('tb_pinjam.id_bidang_lab',$id_bidang_lab)
             ->get();
 
-        $user = $this->db->select('tb_permohonan_pinjam_alat.*, tb_user.*')
-            ->from('tb_permohonan_pinjam_alat')
-            ->join('tb_user', 'tb_user.id_user=tb_permohonan_pinjam_alat.id_user')
-            ->where('tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat', $id)
-            ->where('tb_permohonan_pinjam_alat.status_track', 'Belum diambil')
-            ->where('tb_permohonan_pinjam_alat.status', 'Diizinkan')
-            ->get();
+        // $user = $this->db->select('tb_permohonan_pinjam_alat.*, tb_user.*')
+        //     ->from('tb_permohonan_pinjam_alat')
+        //     ->join('tb_user', 'tb_user.id_user=tb_permohonan_pinjam_alat.id_user')
+        //     ->where('tb_permohonan_pinjam_alat.id_permohonan_pinjam_alat', $id)
+        //     ->where('tb_permohonan_pinjam_alat.status_track', 'Belum diambil')
+        //     ->where('tb_permohonan_pinjam_alat.status', 'Diizinkan')
+        //     ->get();
+        
+        $user = $this->db->query("SELECT a.*,b.* FROM tb_user a LEFT JOIN tb_permohonan_pinjam_alat b ON a.id_user = b.id_user LEFT JOIN tb_pinjam c ON c.id_permohonan_pinjam_alat = b.id_permohonan_pinjam_alat WHERE c.id_bidang_lab ='$id_bidang_lab' AND c.status='Belum diambil'");
+
+        // echo '<pre>';print_r($user->result());exit;
         
 
         if ($user->num_rows() == 0) {
