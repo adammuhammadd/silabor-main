@@ -28,7 +28,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 // $config['base_url']    = $root;
 
 // $config['base_url'] = 'http://' . $_SERVER['SERVER_NAME'] . '/silabor-main.test';
-$config['base_url'] = 'http://silabor-main.test';
+$config['base_url'] = 'http://localhost/silabor-main';
 
 /*
 |--------------------------------------------------------------------------

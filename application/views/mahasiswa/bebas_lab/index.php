@@ -27,7 +27,7 @@
 								<h5>Pengajuan Bebas Laboratorium</h5>
 							</div>
 							<div class="card-body">
-								<p>Dalam rangka memberikan pelayanan terbaik kepada mahasiswa tingkat akhir yang sedang mempersiapkan kelulusan, Laboratorium memberikan layanan daring terkait permohonan Surat Keterangan Bebas Perpustakaan dan Laboratorium.</p>
+								<p>Dalam rangka memberikan pelayanan terbaik kepada mahasiswa tingkat akhir yang sedang mempersiapkan kelulusan, Laboratorium memberikan layanan daring terkait permohonan Surat Keterangan Bebas Laboratorium.</p>
 								<p class="text-danger">* Pastikan mahasiswa tidak mempunyai tanggungan laboratorium/ peminjaman alat laboratorium</p>
 
 							</div>
@@ -72,8 +72,8 @@
 					<div class="notif"></div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" type="button" data-bs-dismiss="modal">Tidak</button>
-					<button class="btn btn-secondary" type="submit">Simpan</button>
+					<button class="btn btn-danger" type="button" data-bs-dismiss="modal">Tidak</button>
+					<button class="btn btn-primary" type="submit">Simpan</button>
 				</div>
 			</form>
 		</div>

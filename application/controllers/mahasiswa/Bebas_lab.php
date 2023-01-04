@@ -584,6 +584,7 @@ class Bebas_lab extends CI_Controller
         }
 
         $data = array(
+            'no_surat' => $cek_status->no_surat,
             'nama' => $cek_status->nama_lengkap,
             'nim' => $cek_status->nim,
             'prodi' => $cek_status->prodi,
@@ -722,6 +723,7 @@ class Bebas_lab extends CI_Controller
         $ttd_kepala_upt = 'Ditandatangani_Oleh_:_' . $kepala_upt->nama_lengkap . '_|_No_surat_:_' . $get_kode;
         
         $data = array(
+            'no_surat'          => $cek_status->no_surat,
             'nama'              => $cek_status->nama_lengkap,
             'nim'               => $cek_status->nim,
             'prodi'             => $cek_status->prodi,

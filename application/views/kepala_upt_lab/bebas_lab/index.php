@@ -17,7 +17,7 @@
 
 					<div class="card">
 						<div class="card-header">
-							<h5>Daftar Mahasiswa Yang Telah Mengambil Bebas Lab</h5>
+							<h5>Permintaan Bebas Lab Yang Belum Dikonfirmasi Kepala UPT Lab</h5>
 						</div>
 
 						<div class="card-body table-responsive">
@@ -27,7 +27,7 @@
 										<th class="col-1">No</th>
 										<th class="col-4">Nama</th>
 										<th class="col-4">Kode Permohonan</th>
-										<th class="col-3">Tanggal Penerimaan</th>
+										<th class="col-1 text-center">Aksi</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -37,7 +37,13 @@
 											<td><?= $no++ ?></td>
 											<td><?= $list_bebas_lab->nama_lengkap ?></td>
 											<td><?= $list_bebas_lab->kode_permohonan; ?></td>
-											<td><?= $list_bebas_lab->tgl_penerimaan ?></td>
+											<td>
+													<div class="d-flex justify-content-center gap-1">
+														<a href="<?= base_url('kepala_upt_lab/bebas_lab/detail/') . $list_bebas_lab->id_permohonan_bebas_lab ?>">
+															<button class="btn btn-primary detail" name="bebas-lab" id="<?= $list_bebas_lab->id_permohonan_bebas_lab ?>">Detail</button>
+														</a>
+													</div>
+											</td>
 										</tr>
 									<?php } ?>
 

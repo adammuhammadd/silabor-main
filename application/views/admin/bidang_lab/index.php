@@ -76,8 +76,8 @@
 					<div class="notif"></div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" type="button" data-bs-dismiss="modal">Tidak</button>
-					<button class="btn btn-secondary" type="submit">Simpan</button>
+					<button class="btn btn-danger" type="button" data-bs-dismiss="modal">Tidak</button>
+					<button class="btn btn-primary" type="submit">Simpan</button>
 				</div>
 			</form>
 		</div>

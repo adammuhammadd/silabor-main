@@ -34,6 +34,9 @@
               </ul>
             </li>
 
+            <li><a class="nav-link menu-title link-nav <?php if (@$link == 'laboran/alat_lab') {
+                                                          echo 'active';
+                                                        } ?>" href="<?= base_url() ?>laboran/alat_lab"><i data-feather="plus"></i><span>Tambah Alat</span></a></li>
 
             <li><a class="nav-link menu-title link-nav" href="<?= base_url() ?>home/logout"><i data-feather="log-out"></i><span>Log Out</span></a></li>
 

@@ -26,7 +26,7 @@ class Bebas_lab extends CI_Controller
         $bebas_lab = $this->db->select('tb_permohonan_bebas_lab.*, tb_user.*')
             ->from('tb_permohonan_bebas_lab')
             ->join('tb_user', 'tb_user.id_user=tb_permohonan_bebas_lab.id_user')
-            ->where('tb_permohonan_bebas_lab.status', 'Diizinkan')
+            ->where('tb_permohonan_bebas_lab.status', 'Belum Diizinkan')
             ->get();
 
         $data = array(
@@ -73,9 +73,11 @@ class Bebas_lab extends CI_Controller
     public function terima()
     {
         $id = $this->input->post('id');
+        $no_surat = $this->input->post('no_surat');
 
         $this->db->trans_begin();
         $data_to_save = array(
+            'no_surat' => $no_surat,
             'id_kepala_upt' => $this->session->userdata('id_user'),
             'status_kepala_upt' => 'Diizinkan',
             'status' => 'Diizinkan',
@@ -105,6 +107,7 @@ class Bebas_lab extends CI_Controller
     {
         $this->db->trans_begin();
         $id = $this->input->post('id');
+
 
         $data_to_save = array(
             'status_kepala_upt' => 'Tidak diizinkan',

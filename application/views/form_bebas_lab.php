@@ -124,13 +124,13 @@
         <div class="body" style="margin-top: 10px;">
             <p style="text-align:center;font-weight:bold;font-size:12pt">SURAT KETERANGAN BEBAS LABORATORIUM</p>
             <div class="underline" style="border-bottom: 1px solid black;margin-left:150px;margin-right:150px"></div>
+            <p style="text-align:center;font-weight:bold;font-size:10pt"><?= $no_surat ?></p>
             <div style="margin-left: 100px;margin-right: 100px;">
                 <p>Dengan ini menyatakan bahwa:</p>
                 <div class="input" style="margin-left: 100px;">
                     <p style="margin:0">Nama&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?= $nama ?></p>
                     <p style="margin:0">NIM/NIP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?= $nim ?></p>
                     <p style="margin:0">Prodi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?= $prodi ?></p>
-                    <p style="margin:0">Kode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?= $kode_permohonan ?></p>
                 </div>
                 <p>Mahasiswa tersebut di atas telah menyelesaikan semua administrasi maupun peminjaman alat laboratorium yang ada di UPT Laboratorium Terpadu dan dinyatakan bebas dari tanggungan laboratorium:
                 </p>

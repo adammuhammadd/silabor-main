@@ -85,12 +85,29 @@
 							<div>
 								<a class="btn btn-warning" href="<?= base_url('kepala_upt_lab/bebas_lab/form_bebas_lab/') . $user->id_permohonan_bebas_lab; ?>">Lihat Form Pengajuan</a>
 							</div>
-							<div class="d-flex gap-3">
-								<button class="btn btn-danger btn-tolak" type="button" data-bs-toggle="modal" data-bs-target="#modal-tolak">Tolak Pengajuan</button>
-								<button class="btn btn-primary btn-terima" type="button" data-bs-toggle="modal" data-bs-target="#modal-terima">Terima Pengajuan</button>
-							</div>
 						</div>
 					</div>
+
+					<hr>
+
+					<form enctype="multipart/form-data" id="form-index">
+						<div class="modal-body grid-showcase">
+							<div class="mb-3 d-flex flex-column gap-3">
+								<div class="col">
+									<label class="col-form-label">Nomor Surat:</label>
+									<input class="form-control" name="nomor_surat" id="nomor_surat" type="text" required>
+								</div>
+
+							</div>
+							<div class="notif"></div>
+						</div>
+					</form>
+
+					<div class="d-flex gap-3">
+								<button class="btn btn-danger btn-tolak" type="button" data-bs-toggle="modal" data-bs-target="#modal-tolak">Tolak Pengajuan</button>
+								<button class="btn btn-primary btn-terima" type="button" data-bs-toggle="modal" data-bs-target="#modal-terima">Terima Pengajuan</button>
+					</div>
+
 
 				</div>
 			</div>

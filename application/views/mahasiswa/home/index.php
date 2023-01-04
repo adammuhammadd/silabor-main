@@ -326,8 +326,8 @@
 					<div class="notif"></div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-danger" type="button" data-bs-dismiss="modal">Tidak</button>
-					<button class="btn btn-primary ya-batalkan-permohonan-pinjam" type="button">Ya</button>
+					<button class="btn btn-primary" type="button" data-bs-dismiss="modal">Tidak</button>
+					<button class="btn btn-danger ya-batalkan-permohonan-pinjam" type="button">Ya</button>
 				</div>
 			</form>
 		</div>
@@ -349,8 +349,8 @@
 					<div class="notif"></div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-danger" type="button" data-bs-dismiss="modal">Tidak</button>
-					<button class="btn btn-primary ya-batalkan-bebas-lab" type="button">Ya</button>
+					<button class="btn btn-primary" type="button" data-bs-dismiss="modal">Tidak</button>
+					<button class="btn btn-danger ya-batalkan-bebas-lab" type="button">Ya</button>
 				</div>
 			</form>
 		</div>

@@ -1,16 +1,18 @@
 <script type="text/javascript">
     $(document).ready(function() {
         let id = <?= $user->id_permohonan_bebas_lab ?>;
-
+        
         $(document).on('click', '.ya-terima', function(e) {
             e.preventDefault();
+            var data = $('#form-index').serialize();
 
             $('.notif').html('Loading...');
 
             $.ajax({
                 url: '<?= base_url() ?>kepala_upt_lab/bebas_lab/terima',
                 data: {
-                    'id': id
+                    'id': id,
+                    'no_surat': data
                 },
                 type: 'POST',
                 dataType: 'JSON',
